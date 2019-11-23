@@ -1,0 +1,30 @@
+<%= simple_form_for @article do |f| %>
+  <div class="form-inputs">
+    <%= f.input :name %>
+    <%= f.drag_and_drop_file_field :image, 'Drag and drop image here' %>
+    <%= f.input :body %>
+  </div>
+  <div class="form-actions">
+    <%= f.submit 'Post', class: 'btn btn-primary' %>
+  </div>
+<% end %>
+
+<script>
+  (function() {
+    var reader = new FileReader()
+    var form = document.querySelector('#new_article')
+    var field = document.querySelector('#article_image')
+    var preview = document.querySelector('#asdndz-article_image')
+    reader.onload = function(e) {
+      preview.style.backgroundImage = `url(${e.srcElement.result})`
+    }
+    field.addEventListener('dnd-upload:initialize', function(e) {
+      reader.readAsDataURL(e.detail.file)
+    }, false)
+    form.addEventListener('click', function(e) {
+      if (event.target.dataset.dndDelete === 'true') {
+        preview.style.backgroundImage = ''
+      }
+    }, true)
+  })()
+</script>
